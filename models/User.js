@@ -14,6 +14,15 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    contact: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    companyName:{
+        type: String,
+        required: true
+    },
     data: {
         type: Date,
         default: Date.now

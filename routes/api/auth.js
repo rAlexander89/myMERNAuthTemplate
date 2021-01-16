@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs')
 const auth = require('../../middleware/auth')
-const User = require('../../models/User')
 const { check, validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken')
 const config = require('config')
+
+const User = require('../../models/User')
 
 //@route        GET api/auth
 //@descrition   Test route
@@ -46,7 +47,7 @@ router.post('/',
             })
         }
 
-        const { name, email, password } = req.body
+        const { email, password } = req.body
 
         try{
             let user = await User.findOne({
