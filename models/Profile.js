@@ -5,28 +5,53 @@ const ProfileSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
-    company: {
-        type: String
+    team: {
+        type: String,
+        required: true
     },
-    website: {
-        type: String
+    cell: {
+        type: String,
+        required: true
     },
-    pocs: {
-        type: [String],
+    email: { 
+        type: String,
         required: true
     },
     locations: {
-        type: [String],
-        required: true
-    },
-    status: {
         type: String,
         required: true
     },
-    target_demo: {
-        type: String,
-        required: true
+    leads: {
+        type: [String]
     },
+    volume: {
+        type: Number
+    },
+    commissions: {
+        type: Number
+    },
+    // company: {
+    //     type: String
+    // },
+    // website: {
+    //     type: String
+    // },
+    // pocs: {
+    //     type: [String],
+    //     required: true
+    // },
+    // locations: {
+    //     type: [String],
+    //     required: true
+    // },
+    // status: {
+    //     type: String,
+    //     required: true
+    // },
+    // target_demo: {
+    //     type: String,
+    //     required: true
+    // },
     notes: [
         {
         subject: {
@@ -55,23 +80,23 @@ const ProfileSchema = new mongoose.Schema({
         }
         }
     ],
-    social: {
-        youtube: {
-            type: String
-        },
-        twitter: {
-            type: String
-        },
-        facebook: {
-            type: String
-        },
-        linkedin: {
-            type: String
-        },
-        instagram: {
-            type: String
-        }
-    },
+    // social: {
+    //     youtube: {
+    //         type: String
+    //     },
+    //     twitter: {
+    //         type: String
+    //     },
+    //     facebook: {
+    //         type: String
+    //     },
+    //     linkedin: {
+    //         type: String
+    //     },
+    //     instagram: {
+    //         type: String
+    //     }
+    // },
     date: {
         type: Date,
         default: Date.now
