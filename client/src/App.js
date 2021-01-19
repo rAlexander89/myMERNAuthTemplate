@@ -7,6 +7,7 @@ import Register from './components/auth/register'
 import Alert from './components/layout/alert'
 import Dashboard from './components/dashboard/dashboard'
 import CreateProfile from './components/profile-form/create_profile'
+import EditProfile from './components/profile-form/edit_profile'
 import PrivateRoute from './components/routing/private_route'
 
 import './App.css';
@@ -41,6 +42,7 @@ const App = () => {
               <Route exact path='/login' component={Login}/> 
               <PrivateRoute exact path='/dashboard' component={Dashboard}/> 
               <PrivateRoute exact path='/create-profile' component={CreateProfile}/> 
+              <PrivateRoute exact path='/edit-profile' component={EditProfile}/> 
             </Switch>
           </section>
         </Fragment>

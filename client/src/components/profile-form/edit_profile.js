@@ -1,23 +1,42 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import  { Link, withRouter } from 'react-router-dom' 
-import { createProfile } from '../../actions/profile'
+import { createProfile, getCurrentProfile } from '../../actions/profile'
 
-const CreateProfile = ({ createProfile, history }) => {
+const EditProfile = ({ profile: {profile, loading}, createProfile, getCurrentProfile, history }) => {
 
     const [ formData, setFormData ] = useState({
         team: '',
-        cell: '',
         email: '',
+        cell: '',
         counties: '',
+        leads: '',
+        volume: '',
+        commissions: '',
+        notes: ''
     })
 
-    const { team, cell, email, counties } = formData
+    useEffect(() => {
+        getCurrentProfile()
+
+        setFormData({
+            team: loading || !profile.team ? '' : profile.team,
+            email: loading || !profile.email ? '' : profile.email,
+            cell: loading || !profile.cell ? '' : profile.cell,
+            counties: loading || !profile.counties ? '' : profile.counties,
+            // leads: loading || !profile.leads ? '' : profile.leads,
+            // volume: loading || !profile.volume ? '' : profile.volume,
+            // commissions: loading || !profile.commissions ? '' : profile.commissions,
+            // notes: loading || !profile.notes ? '' : profile.notes
+        })
+    }, [loading])
+
+    const { team, email, cell, counties } = formData
 
     const onSubmit = e => {
         e.preventDefault()
-        createProfile(formData, history)
+        createProfile(formData, history, true)
     }
 
     const onChange = e => setFormData({ 
@@ -29,7 +48,7 @@ const CreateProfile = ({ createProfile, history }) => {
 
     <Fragment>
       <h1 className="large text-primary">
-        Create User Profile
+        Edit User Profile
       </h1>
       <small> All fields are required</small>
 
@@ -82,9 +101,17 @@ const CreateProfile = ({ createProfile, history }) => {
     )
 }
 
-CreateProfile.propTypes = {
+EditProfile.propTypes = {
     createProfile: PropTypes.func.isRequired,
+    getCurrentProfile: PropTypes.func.isRequired,
+    profile: PropTypes.object.isRequired,
 }
 
-export default connect(null, { createProfile })(withRouter(CreateProfile))
+const mSTP = state => {
+    return{
+        profile: state.profile
+    }
+}
+
+export default connect(mSTP, { createProfile, getCurrentProfile })(withRouter(EditProfile))
 

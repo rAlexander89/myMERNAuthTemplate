@@ -1,3 +1,5 @@
+//generic routes created. 
+
 const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth')
@@ -10,6 +12,7 @@ const User = require('../../models/User')
 //@description   get current user profile
 //              register user, add profile
 // @access       public
+
 router.get('/me', auth, async (req, res) => {
 
     try{
@@ -36,26 +39,27 @@ router.get('/me', auth, async (req, res) => {
 
 router.post('/', 
     [auth, [
-        check('pocs', 'Point of Contact is required.').not().isEmpty(),
-        check('status', 'status is required.').not().isEmpty(),
-        check('locations', 'Store locations are required.').not().isEmpty(),
-        check('target_demo', 'Target Demographic is required.').not().isEmpty()
+        check('team', 'Team is required.').not().isEmpty(),
+        check('email', 'Email is required.').not().isEmpty(),
+        check('cell', 'Cell work number is required.').not().isEmpty(),
+        check('counties', 'Counties covered are required.').not().isEmpty()
     ]
     ], 
     async (req, res) =>  {
+        debugger
         const errors = validationResult(req)
         if (!errors.isEmpty()){
             return res.status(400).json({ errors: errors.array()})
     }
 
     const {
-        company, 
-        website,
-        pocs,
-        locations,
-        status,
-        target_demo,
-        social
+        team, 
+        email,
+        cell,
+        counties,
+        leads,
+        volume,
+        comissions
     } = req.body
 
 
@@ -64,43 +68,45 @@ router.post('/',
     const profileFields = {}
     profileFields.user = req.user.id
 
-    if (company) profileFields.company = company
-    if (website) profileFields.website = website
-    if (pocs) {
-        profileFields.pocs = pocs.split(',')
-        // .map(poc => poc.trim)
-        .map(poc => poc)
+    debugger
+    if (team) profileFields.team = team
+    if (email) profileFields.email = email
+    if (cell) profileFields.cell = cell
+    if (counties) {
+        profileFields.counties = counties.split(',')
+        .map(counties => counties)
     }
-    if (status) profileFields.status = status
-    if (locations) {
-        profileFields.locations = locations.split(',')
-            // .map(location => location.trim)
-            .map(location => location)
+    if (leads) {
+        profileFields.leads = leads.split(',')
+            .map(leads => leads)
     }
 
-    if (target_demo) profileFields.target_demo = target_demo
-
-    // Build social object
-
-    if (social){
-
-        const {
-            youtube,
-            twitter,
-            facebook,
-            linkedin,
-            instagram
-         } = social
 
 
-        profileFields.social = {}
+    // if (target_demo) profileFields.target_demo = target_demo
+
+    // Build social object --- optional- prebuilt incase needed
+
+    // if (social){
+
+    //     const {
+    //         youtube,
+    //         twitter,
+    //         facebook,
+    //         linkedin,
+    //         instagram
+    //      } = social
+
+
+    //     profileFields.social = {}
         
-        if (youtube) profileFields.social.youtube = youtube
-        if (facebook) profileFields.social.facebook = facebook
-        if (twitter) profileFields.social.twitter = twitter
-        if (linkedin) profileFields.social.linkedin = linkedin
-        if (instagram) profileFields.social.instagram = instagram
-    } 
+    //     if (youtube) profileFields.social.youtube = youtube
+    //     if (facebook) profileFields.social.facebook = facebook
+    //     if (twitter) profileFields.social.twitter = twitter
+    //     if (linkedin) profileFields.social.linkedin = linkedin
+    //     if (instagram) profileFields.social.instagram = instagram
+    // } 
+
 
     try {
       // Using upsert option (creates new doc if no match is found):

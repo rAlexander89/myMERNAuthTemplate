@@ -9,26 +9,26 @@ const ProfileSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    cell: {
-        type: String,
-        required: true
-    },
     email: { 
         type: String,
         required: true
     },
-    locations: {
+    cell: {
         type: String,
+        required: true
+    },
+    counties: {
+        type: [String],
         required: true
     },
     leads: {
         type: [String]
     },
     volume: {
-        type: Number
+        type: String
     },
     commissions: {
-        type: Number
+        type: String
     },
     // company: {
     //     type: String
